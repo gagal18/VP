@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.wp.lab.service.ArtistService;
 import mk.ukim.finki.wp.lab.service.SongService;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -18,6 +19,7 @@ import java.io.IOException;
 public class SongListServlet extends HttpServlet {
 
     private SongService songService;
+    private ArtistService artistService;
     private SpringTemplateEngine springTemplateEngine;
 
     @Override
@@ -27,6 +29,7 @@ public class SongListServlet extends HttpServlet {
                         .buildExchange(req, resp)
         );
         context.setVariable("songs",songService.findAllSongs());
+        context.setVariable("artists",artistService.findAllArtists());
         springTemplateEngine.process(
                 "listSongs",
                 context,

@@ -29,6 +29,17 @@
         </div>
         <input type='submit' value='Submit'>
     </form>
+    <h1>List Artists</h1>
+    <form action="/artist/details" method="post">
+    <div th:each="artist : ${artists}">
+        <input type="radio"
+               th:name="'artistId'"
+               th:value="${artist.getId()}" />
+        <label th:for="'artist-' + ${artist.id}"
+               th:text="'Name: ' + ${artist.getFirstName()} + ', Last Name: ' + ${artist.getLastName()}"></label><br/>
+    </div>
+    <input type='submit' value='Submit'>
+</form>
 </main>
 </body>
 </html>

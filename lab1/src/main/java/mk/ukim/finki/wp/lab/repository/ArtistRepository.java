@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.lab.repository;
 import mk.ukim.finki.wp.lab.bootstrap.DataInit;
 import mk.ukim.finki.wp.lab.model.Artist;
+import mk.ukim.finki.wp.lab.model.Song;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

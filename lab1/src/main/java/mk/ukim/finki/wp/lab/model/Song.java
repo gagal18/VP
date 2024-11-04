@@ -29,4 +29,12 @@ public class Song {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Song{" +
+                "title='" + title + '\'' +
+                ", genre='" + genre + '\'' +
+                ", releaseYear=" + releaseYear +
+                '}';
+    }
 }

@@ -17,8 +17,9 @@ public class SongRepository {
         return DataInit.songs.stream().filter(i -> i.getTrackId().equals(id)).findFirst();
     }
     public Artist addArtistToSong(Artist artist, Song song){
-        if (artist != null || song != null) {
+        if (artist != null && song != null) {
             song.addPerformer(artist);
+            artist.addSong(song);
             return artist;
         }
         return null;
