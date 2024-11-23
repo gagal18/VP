@@ -24,6 +24,10 @@ public class SongService {
     public Optional<Song> findSongByTrackId(String trackId) {
         return songRepository.findByTrackId(trackId);
     }
+    public Optional<Song> findSongById(Long id) {
+        return songRepository.findSongById(id);
+    }
+
 
     public Artist addArtistToSong(Artist artist, String trackId) {
         Optional<Song> optionalSong = songRepository.findByTrackId(trackId);
@@ -33,5 +37,19 @@ public class SongService {
             return artist;
         }
         return null;
+    }
+
+    public Song addSong(Song newSong) {
+        songRepository.addSong(newSong);
+        return newSong;
+    }
+
+    public boolean deleteSong(Long id) {
+        Optional<Song> song = songRepository.findSongById(id);
+        if (song.isPresent()) {
+            songRepository.deleteSong(id);
+            return true;
+        }
+        return false;
     }
 }

@@ -5,21 +5,16 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class Artist {
-    private Long id;
+public class Artist extends BaseEntity {
     private String firstName;
     private String lastName;
     private String bio;
     private List<Song> songs;
-    Random rd = new Random();
 
     public Artist(String firstName, String lastName, String bio) {
-        this.id = Math.abs(rd.nextLong());
         this.firstName = firstName;
         this.lastName = lastName;
         this.bio = bio;

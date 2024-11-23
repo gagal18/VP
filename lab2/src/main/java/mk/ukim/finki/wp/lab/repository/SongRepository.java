@@ -24,5 +24,18 @@ public class SongRepository {
         }
         return null;
     }
+    public Song addSong(Song newSong) {
+        DataInit.songs.add(newSong);
+
+        return newSong;
+    }
+
+    public Optional<Song> findSongById(Long id){
+        return DataInit.songs.stream().filter(i -> i.getId().equals(id)).findFirst();
+    }
+
+    public void deleteSong(Long id) {
+        DataInit.songs.removeIf(song -> song.getId().equals(id));
+    }
 
 }

@@ -8,40 +8,32 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class Song extends BaseEntity {
-    private String trackId;
+public class Album extends BaseEntity {
     private String title;
     private String genre;
     private int releaseYear;
-    private List<Artist> performers;
-    private Album album;
+    private List<Song> songs;
 
-    public Song(String title, String genre, int releaseYear){
-        this.trackId = UUID.randomUUID().toString();
+    public Album(String title, String genre, int releaseYear){
         this.title = title;
         this.genre = genre;
         this.releaseYear = releaseYear;
-        this.performers = new ArrayList<>();
+        this.songs = new ArrayList<>();
     }
 
-    public void addPerformer(Artist artist) {
-        if (artist != null) {
-            performers.add(artist);
-        }
-    }
-    public void addSongToAlbum(Album album) {
-        if (album != null) {
-            this.album = album;
+    public void addSong(Song song) {
+        if (song != null) {
+            songs.add(song);
+            song.addSongToAlbum(this);
         }
     }
 
     @Override
     public String toString() {
-        return "Song{" +
+        return "Album{" +
                 "id='" + getId() + '\'' +
                 "title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
-                ", album='" + getAlbum() + '\'' +
                 ", releaseYear=" + releaseYear +
                 '}';
     }
