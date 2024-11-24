@@ -12,7 +12,7 @@ public class AlbumRepository {
     public List<Album> findAll() {
         return DataInit.albums;
     }
-    public Optional<Album> findById(String id) {
+    public Optional<Album> findById(Long id) {
         return DataInit.albums.stream().filter(i -> i.getId().equals(id)).findFirst();
     }
 

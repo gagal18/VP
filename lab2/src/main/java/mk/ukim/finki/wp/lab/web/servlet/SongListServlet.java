@@ -30,6 +30,14 @@ public class SongListServlet extends HttpServlet {
         );
         context.setVariable("songs",songService.findAllSongs());
         context.setVariable("artists",artistService.findAllArtists());
+        String errorCtx = (String) req.getSession().getAttribute("errorCtx");
+
+        if (errorCtx != null) {
+            req.getSession().removeAttribute("errorCtx");
+        }
+        if (errorCtx != null) {
+            context.setVariable("errorCtx", errorCtx);
+        }
         springTemplateEngine.process(
                 "listSongs",
                 context,

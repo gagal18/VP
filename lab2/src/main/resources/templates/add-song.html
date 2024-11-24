@@ -9,8 +9,7 @@
 <div>
     <h1 th:text="${song == null ? 'Add New Song' : 'Edit Song'}"></h1>
 
-    <form action="songs" method="POST">
-        <input type="hidden" name="action" th:value="${song == null ? 'add' : 'edit'}">
+    <form action="/songs/add" method="POST">
         <input type="hidden" name="songId" th:value="${song != null ? song.id : ''}">
 
         <div>
@@ -42,7 +41,7 @@
         <button type="submit" th:text="${song == null ? 'Add Song' : 'Save Changes'}"></button>
     </form>
 
-    <a href="songs">Back to Songs</a>
+    <a href="/songs">Back to Songs</a>
 </div>
 </body>
 </html>

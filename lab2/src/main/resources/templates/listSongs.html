@@ -13,11 +13,11 @@
 <header>
     <h1>Welcome to My Music Store</h1>
 </header>
+<div>
+    <a href="/songs/add-form"><h3>Create new song</h3></a>
+</div>
 <main>
     <h2>Choose a song:</h2>
-    <!-- Display radio buttons for each song,
-            the value should be the trackId
-            and the displayed text should be Title: <songTitle>, Genre:<genre>, Release Year: <releaseYear> -->
     <form action="/song/details" method="post">
         <div th:each="song : ${songs}">
             <input type="radio"
@@ -26,6 +26,8 @@
                    id="song-${song.trackId}"/>
             <label th:for="'song-' + ${song.trackId}"
                    th:text="'Title: ' + ${song.title} + ', Genre: ' + ${song.genre} + ', Release Year: ' + ${song.releaseYear}"></label><br/>
+            <a th:href="'/songs/edit-form/' + ${song.id}" class="edit-button">Edit</a>
+            <a th:href="'/songs/delete/' + ${song.id}" class="edit-button">Delete</a>
         </div>
         <input type='submit' value='Submit'>
     </form>
@@ -40,6 +42,9 @@
     </div>
     <input type='submit' value='Submit'>
 </form>
+    <div th:if="${errorCtx != null}">
+        <p th:text="${errorCtx}"></p>
+    </div>
 </main>
 </body>
 </html>

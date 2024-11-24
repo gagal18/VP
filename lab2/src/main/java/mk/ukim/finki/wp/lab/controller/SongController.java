@@ -1,5 +1,6 @@
 package mk.ukim.finki.wp.lab.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.model.Song;
 import mk.ukim.finki.wp.lab.service.AlbumService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,36 +27,55 @@ public class SongController {
         this.albumService = albumService;
     }
 
-    @GetMapping
-    public String getSongsPage(@RequestParam(required = false) String error, Model model) {
-        List<Song> songs = songService.findAllSongs();
-        model.addAttribute("songs", songs);
-        model.addAttribute("albums", albumService.findAll());
-        if (error != null) {
-            model.addAttribute("error", error);
-        }
-        return "listSongs";
-    }
 
     @PostMapping("/add")
-    public String saveSong(@RequestParam String title,
-                           @RequestParam String trackId,
-                           @RequestParam String genre,
-                           @RequestParam int releaseYear) {
-        Song song = new Song(title, genre, releaseYear);
-        songService.addSong(song);
-        return "redirect:/songs";
+    public String saveOrUpdateSong(@RequestParam(required = false) Long songId,
+                                   @RequestParam String title,
+                                   @RequestParam String genre,
+                                   @RequestParam Long albumId,
+                                   @RequestParam int releaseYear, RedirectAttributes redirectAttributes) {
+        Song song;
+
+        if (songId != null) {
+            Optional<Song> existingSongOptional = songService.findSongById(songId);
+            if (existingSongOptional.isPresent()) {
+                song = existingSongOptional.get();
+                song.setTitle(title);
+                song.setGenre(genre);
+                song.setReleaseYear(releaseYear);
+            } else {
+                System.out.println("NONO");
+                redirectAttributes.addFlashAttribute("error", "No song found with id " + songId);
+                return "redirect:/listSongs";
+            }
+        } else {
+            song = new Song(title, genre, releaseYear);
+            songService.addSong(song);
+        }
+
+        Optional<Album> albumOptional = albumService.findById(albumId);
+        if (albumOptional.isPresent()) {
+            Album album = albumOptional.get();
+            album.addSong(song);
+        }
+
+        return "redirect:/listSongs";
     }
 
-    @GetMapping("/edit/{songId}")
-    public String editSong(@PathVariable Long songId, Model model) {
-        Optional<Song> song = songService.findSongById(songId);
+    @GetMapping("/edit-form/{songId}")
+    public String editSong(@PathVariable Long songId, Model model, HttpServletRequest req) {
+        Optional<Song> songOpt = songService.findSongById(songId);
         List<Album> albums = albumService.findAll();
-        model.addAttribute("song", song);
-        model.addAttribute("albums", albums);
-        return "editSong";
+        if(songOpt.isPresent()){
+            songOpt.ifPresent(song -> model.addAttribute("song", song));
+            model.addAttribute("albums", albums);
+            return "add-song";
+        }else{
+            req.getSession().setAttribute("errorCtx", "No song with ID " + songId + " was found");
+            return "redirect:/listSongs";
+        }
     }
-    @GetMapping("/add-song")
+    @GetMapping("/add-form")
     public String addSong(Model model) {
         List<Album> albums = albumService.findAll();
 
@@ -67,6 +88,6 @@ public class SongController {
     @GetMapping("/delete/{id}")
     public String deleteSong(@PathVariable Long id) {
         songService.deleteSong(id);
-        return "redirect:/songs";
+        return "redirect:/listSongs";
     }
 }
