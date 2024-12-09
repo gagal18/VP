@@ -2,7 +2,7 @@ package mk.ukim.finki.wp.lab.service;
 
 import mk.ukim.finki.wp.lab.model.Artist;
 import mk.ukim.finki.wp.lab.model.Song;
-import mk.ukim.finki.wp.lab.repository.SongRepository;
+import mk.ukim.finki.wp.lab.repository.inmemory.InMemSongRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class SongService {
 
-    private final SongRepository songRepository;
+    private final InMemSongRepository songRepository;
 
-    public SongService(SongRepository songRepository) {
+    public SongService(InMemSongRepository songRepository) {
         this.songRepository = songRepository;
     }
 

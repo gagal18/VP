@@ -1,9 +1,7 @@
 package mk.ukim.finki.wp.lab.service;
 
 import mk.ukim.finki.wp.lab.model.Album;
-import mk.ukim.finki.wp.lab.model.Song;
-import mk.ukim.finki.wp.lab.repository.AlbumRepository;
-import mk.ukim.finki.wp.lab.repository.SongRepository;
+import mk.ukim.finki.wp.lab.repository.db.AlbumRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,18 +1,22 @@
 package mk.ukim.finki.wp.lab.model;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
+@Entity
+@NoArgsConstructor
 public class Song extends BaseEntity {
     private String trackId;
     private String title;
     private String genre;
     private int releaseYear;
+    @ManyToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Artist> performers;
     private Album album;
 
