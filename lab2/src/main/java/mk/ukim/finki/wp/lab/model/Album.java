@@ -1,8 +1,8 @@
 package mk.ukim.finki.wp.lab.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -12,12 +12,16 @@ import java.util.UUID;
 @Data
 @Entity
 @NoArgsConstructor
-public class Album extends BaseEntity {
+public class Album {
+    @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String title;
     private String genre;
     private int releaseYear;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "album", fetch = FetchType.EAGER)
     private List<Song> songs;
 
     public Album(String title, String genre, int releaseYear){
@@ -37,7 +41,7 @@ public class Album extends BaseEntity {
     @Override
     public String toString() {
         return "Album{" +
-                "id='" + getId() + '\'' +
+                "id='" + id + '\'' +
                 "title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
                 ", releaseYear=" + releaseYear +

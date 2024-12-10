@@ -3,6 +3,7 @@ package mk.ukim.finki.wp.lab.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.model.Song;
+import mk.ukim.finki.wp.lab.model.enumerations.Genre;
 import mk.ukim.finki.wp.lab.service.AlbumService;
 import mk.ukim.finki.wp.lab.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class SongController {
             if (existingSongOptional.isPresent()) {
                 song = existingSongOptional.get();
                 song.setTitle(title);
-                song.setGenre(genre);
+                song.setGenre(Genre.valueOf(genre));
                 song.setReleaseYear(releaseYear);
             } else {
                 System.out.println("NONO");
@@ -49,7 +50,7 @@ public class SongController {
                 return "redirect:/listSongs";
             }
         } else {
-            song = new Song(title, genre, releaseYear);
+            song = new Song(title, Genre.valueOf(genre), releaseYear);
             songService.addSong(song);
         }
 
@@ -82,6 +83,16 @@ public class SongController {
         model.addAttribute("albums", albums);
 
         return "add-song";
+    }
+
+    @PostMapping("/filter")
+    public String filter(@RequestParam String search, Model model) {
+        System.out.println();
+        List<Song> songs = songService.findAllWithFilter(search);
+        System.out.println(songs);
+        model.addAttribute("songs", songs);
+
+        return "songs";
     }
 
 

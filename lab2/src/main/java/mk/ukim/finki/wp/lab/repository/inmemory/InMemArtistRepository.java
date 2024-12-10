@@ -12,6 +12,6 @@ public class InMemArtistRepository {
         return DataInit.artists;
     }
     public Optional<Artist> findById(Long id) {
-        return DataInit.artists.stream().filter(i -> i.getId().equals(id)).findFirst();
+        return DataInit.artists.stream().filter(i -> i.getId() == id).findFirst();
     }
 }

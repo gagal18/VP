@@ -31,11 +31,11 @@ public class InMemSongRepository {
     }
 
     public Optional<Song> findSongById(Long id){
-        return DataInit.songs.stream().filter(i -> i.getId().equals(id)).findFirst();
+        return DataInit.songs.stream().filter(i -> i.getId() == id).findFirst();
     }
 
     public void deleteSong(Long id) {
-        DataInit.songs.removeIf(song -> song.getId().equals(id));
+        DataInit.songs.removeIf(song -> song.getId() == id);
     }
 
 }

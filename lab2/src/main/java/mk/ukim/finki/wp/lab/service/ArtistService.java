@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.lab.service;
 
 import mk.ukim.finki.wp.lab.model.Artist;
+import mk.ukim.finki.wp.lab.repository.db.ArtistRepository;
 import mk.ukim.finki.wp.lab.repository.inmemory.InMemArtistRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,17 +11,17 @@ import java.util.Optional;
 @Service
 public class ArtistService {
 
-    private final InMemArtistRepository inMemArtistRepository;
+    private final ArtistRepository artistRepository;
 
-    public ArtistService(InMemArtistRepository inMemArtistRepository) {
-        this.inMemArtistRepository = inMemArtistRepository;
+    public ArtistService(ArtistRepository artistRepository) {
+        this.artistRepository = artistRepository;
     }
 
     public List<Artist> findAllArtists() {
-        return inMemArtistRepository.findAll();
+        return artistRepository.findAll();
     }
 
     public Optional<Artist> findArtistById(Long id) {
-        return inMemArtistRepository.findById(id);
+        return artistRepository.findById(id);
     }
 }

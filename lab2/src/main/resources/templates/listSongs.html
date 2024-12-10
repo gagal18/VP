@@ -18,6 +18,11 @@
 </div>
 <main>
     <h2>Choose a song:</h2>
+    <form action="/songs/filter" method="post">
+        <input type="text" name="search">
+        <input type='submit' value='Submit'>
+    </form>
+    <h2>Choose a song:</h2>
     <form action="/song/details" method="post">
         <div th:each="song : ${songs}">
             <input type="radio"
