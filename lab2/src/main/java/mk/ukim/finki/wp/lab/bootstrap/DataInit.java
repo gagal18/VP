@@ -4,10 +4,14 @@ import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.model.Artist;
 import mk.ukim.finki.wp.lab.model.Song;
+import mk.ukim.finki.wp.lab.model.User;
 import mk.ukim.finki.wp.lab.model.enumerations.Genre;
+import mk.ukim.finki.wp.lab.model.enumerations.Role;
 import mk.ukim.finki.wp.lab.repository.db.AlbumRepository;
 import mk.ukim.finki.wp.lab.repository.db.ArtistRepository;
 import mk.ukim.finki.wp.lab.repository.db.SongRepository;
+import mk.ukim.finki.wp.lab.repository.db.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,14 +22,20 @@ public class DataInit {
     public static List<Artist> artists = null;
     public static List<Song> songs = null;
     public static List<Album> albums = null;
+    public static List<User> users = null;
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public DataInit(SongRepository songRepository, AlbumRepository albumRepository, ArtistRepository artistRepository) {
+
+    public DataInit(SongRepository songRepository, AlbumRepository albumRepository, ArtistRepository artistRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.songRepository = songRepository;
         this.albumRepository = albumRepository;
         this.artistRepository = artistRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -34,6 +44,7 @@ public class DataInit {
         artists = new ArrayList<Artist>();
         songs = new ArrayList<Song>();
         albums = new ArrayList<>();
+        users = new ArrayList<>();
         if (this.songRepository.count() == 0) {
             // Initializing Songs
             songs.add(new Song("The Joker", Genre.TECHNO, 2024));
@@ -51,6 +62,10 @@ public class DataInit {
             albums.add(new Album("Electronic Pulse", "Electronic", 2021));
             albums.add(new Album("Deep Connections", "Techno", 2023));
             albumRepository.saveAll(albums);
+        }
+        if (this.userRepository.count() == 0) {
+            users.add(new User("admin", passwordEncoder.encode("admin"), "admin", "admin", Role.ROLE_ADMIN));
+            this.userRepository.saveAll(users);
         }
         if (this.artistRepository.count() == 0) {
             // Initializing Artists

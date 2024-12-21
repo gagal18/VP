@@ -32,8 +32,7 @@
             <select id="albumId" name="albumId" required>
                 <option value="">Select an album</option>
                 <th:block th:each="album : ${albums}">
-                    <option th:value="${album.id}" th:text="${album.title}"
-                            th:selected="${song != null && song.album.id == album.id}"></option>
+                    <option th:value="${album.id}" th:text="${album.title}"></option>
                 </th:block>
             </select>
         </div>

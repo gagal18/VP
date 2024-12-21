@@ -38,6 +38,7 @@ public class SongListServlet extends HttpServlet {
         if (errorCtx != null) {
             context.setVariable("errorCtx", errorCtx);
         }
+        resp.setContentType("text/html;charset=UTF-8");
         springTemplateEngine.process(
                 "listSongs",
                 context,

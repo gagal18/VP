@@ -1,4 +1,4 @@
-<html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Songs Homepage - Welcome to My Music Store</title>
@@ -13,7 +13,7 @@
 <header>
     <h1>Welcome to My Music Store</h1>
 </header>
-<div>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
     <a href="/songs/add-form"><h3>Create new song</h3></a>
 </div>
 <main>
@@ -31,8 +31,10 @@
                    id="song-${song.trackId}"/>
             <label th:for="'song-' + ${song.trackId}"
                    th:text="'Title: ' + ${song.title} + ', Genre: ' + ${song.genre} + ', Release Year: ' + ${song.releaseYear}"></label><br/>
-            <a th:href="'/songs/edit-form/' + ${song.id}" class="edit-button">Edit</a>
-            <a th:href="'/songs/delete/' + ${song.id}" class="edit-button">Delete</a>
+            <div sec:authorize="hasRole('ROLE_ADMIN')">
+                <a th:href="'/songs/edit-form/' + ${song.id}" class="edit-button">Edit</a>
+                <a th:href="'/songs/delete/' + ${song.id}" class="edit-button">Delete</a>
+            </div>
         </div>
         <input type='submit' value='Submit'>
     </form>
@@ -49,6 +51,11 @@
 </form>
     <div th:if="${errorCtx != null}">
         <p th:text="${errorCtx}"></p>
+    </div>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <form action="/logout" method="post">
+            <input type="submit" value="Logout">
+        </form>
     </div>
 </main>
 </body>
